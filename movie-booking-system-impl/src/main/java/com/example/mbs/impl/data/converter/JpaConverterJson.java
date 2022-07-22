@@ -1,4 +1,4 @@
-package com.example.moviebookingsystem.data.converter;
+package com.example.mbs.impl.data.converter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;

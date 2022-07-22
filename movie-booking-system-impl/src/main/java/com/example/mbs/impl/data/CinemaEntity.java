@@ -1,4 +1,4 @@
-package com.example.moviebookingsystem.data;
+package com.example.mbs.impl.data;
 
 import javax.persistence.*;
 import java.util.Objects;

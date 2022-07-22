@@ -1,6 +1,6 @@
-package com.example.moviebookingsystem.data;
+package com.example.mbs.impl.data;
 
-import com.example.moviebookingsystem.data.converter.JpaConverterJson;
+import com.example.mbs.impl.data.converter.JpaConverterJson;
 
 import javax.persistence.*;
 import java.util.*;

@@ -1,21 +1,21 @@
-package com.example.moviebookingsystem.data;
+package com.example.mbs.impl.data;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "movie", schema = "public", catalog = "booking")
-public class MovieEntity {
-    private long id;
+@Table(name = "city", schema = "public", catalog = "booking")
+public class CityEntity {
+    private int id;
     private String name;
 
     @Id
     @Column(name = "id")
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -33,7 +33,7 @@ public class MovieEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MovieEntity that = (MovieEntity) o;
+        CityEntity that = (CityEntity) o;
         return id == that.id && Objects.equals(name, that.name);
     }
 
