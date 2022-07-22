@@ -1,13 +1,18 @@
 package com.example.moviebookingsystem.data;
 
+import com.example.moviebookingsystem.data.converter.JpaConverterJson;
+
 import javax.persistence.*;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "booking", schema = "public", catalog = "booking")
 public class BookingEntity {
     private String id;
-    private Object seats;
+    private Map<String, Set<Integer>> seats;
+    private Long showId;
 
     @Id
     @Column(name = "id")
@@ -21,11 +26,12 @@ public class BookingEntity {
 
     @Basic
     @Column(name = "seats")
-    public Object getSeats() {
+    @Convert(converter = JpaConverterJson.class)
+    public Map<String, Set<Integer>> getSeats() {
         return seats;
     }
 
-    public void setSeats(Object seats) {
+    public void setSeats(Map<String, Set<Integer>> seats) {
         this.seats = seats;
     }
 
@@ -40,5 +46,15 @@ public class BookingEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, seats);
+    }
+
+    @Basic
+    @Column(name = "show_id")
+    public Long getShowId() {
+        return showId;
+    }
+
+    public void setShowId(Long showId) {
+        this.showId = showId;
     }
 }

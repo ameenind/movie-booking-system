@@ -8,6 +8,7 @@ import java.util.Objects;
 public class CinemaEntity {
     private long id;
     private String name;
+    private Integer cityId;
 
     @Id
     @Column(name = "id")
@@ -40,5 +41,15 @@ public class CinemaEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, name);
+    }
+
+    @Basic
+    @Column(name = "city_id")
+    public Integer getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(Integer cityId) {
+        this.cityId = cityId;
     }
 }
