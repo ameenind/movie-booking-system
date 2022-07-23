@@ -1,4 +1,4 @@
-package com.example.mbs.impl.data;
+package com.example.mbs.impl.data.entity;
 
 import com.example.mbs.impl.data.converter.JpaConverterJson;
 

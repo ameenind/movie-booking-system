@@ -1,4 +1,4 @@
-package com.example.mbs.impl.data;
+package com.example.mbs.impl.data.entity;
 
 import javax.persistence.*;
 import java.util.Objects;

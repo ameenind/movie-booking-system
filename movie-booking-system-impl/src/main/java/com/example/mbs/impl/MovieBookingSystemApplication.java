@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.cassandra.CassandraDataAutoConfiguration;
 import org.springframework.boot.autoconfigure.data.cassandra.CassandraReactiveDataAutoConfiguration;
 
-@SpringBootApplication(exclude={CassandraDataAutoConfiguration.class, CassandraReactiveDataAutoConfiguration.class})
+@SpringBootApplication(exclude = {CassandraDataAutoConfiguration.class, CassandraReactiveDataAutoConfiguration.class})
 public class MovieBookingSystemApplication {
 
     public static void main(String[] args) {
