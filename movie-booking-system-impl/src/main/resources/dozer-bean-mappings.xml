@@ -15,4 +15,45 @@
         </field>
     </mapping>
 
+    <mapping>
+        <class-a>com.example.mbs.impl.data.entity.ShowEntity</class-a>
+        <class-b>com.example.mbs.api.dto.ShowDto</class-b>
+        <field>
+            <a>id</a>
+            <b>id</b>
+        </field>
+        <field>
+            <a>schedule</a>
+            <b>schedule</b>
+        </field>
+        <field>
+            <a>availableSeats</a>
+            <b>availableSeats</b>
+        </field>
+        <field>
+            <a>movieId</a>
+            <b>movieId</b>
+        </field>
+        <field>
+            <a>audiId</a>
+            <b>audiId</b>
+        </field>
+    </mapping>
+
+    <mapping>
+        <class-a>com.example.mbs.impl.data.entity.BookingEntity</class-a>
+        <class-b>com.example.mbs.api.dto.BookingDto</class-b>
+        <field>
+            <a>id</a>
+            <b>id</b>
+        </field>
+        <field>
+            <a>showId</a>
+            <b>showId</b>
+        </field>
+        <field>
+            <a>seats</a>
+            <b>seats</b>
+        </field>
+    </mapping>
 </mappings>

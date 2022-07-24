@@ -1,10 +1,14 @@
 package com.example.mbs.api;
 
+import com.example.mbs.api.dto.BookingDto;
 import com.example.mbs.api.dto.CityDto;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
@@ -12,5 +16,8 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 public interface MovieBookingService {
 
     @RequestMapping(value = "/cities", method = GET)
-    ResponseEntity<List<CityDto>> getCities();
+    ResponseEntity<Iterable<CityDto>> getCities();
+
+    @PostMapping("/book")
+    ResponseEntity<BookingDto> bookTicket(HttpServletRequest httpServletRequest, @RequestBody BookingDto bookingDto);
 }

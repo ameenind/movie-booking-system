@@ -7,9 +7,6 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Wrapper for DozerBeanMapper - extending functionality to map typed lists
- */
 @Component
 public class DozerMappingWrapper extends DozerBeanMapper {
 
@@ -21,17 +18,7 @@ public class DozerMappingWrapper extends DozerBeanMapper {
 		setMappingFiles(mappingFiles);
 	}
 
-
-	/**
-	 * Mapping a list to another list
-	 *
-	 * @param source
-	 * @param destType
-	 * @param <T>
-	 * @param <U>
-	 * @return
-	 */
-	public <T, U> List<U> map(final Iterable<T> source, final Class<U> destType) {
+	public <T, U> Iterable<U> map(final Iterable<T> source, final Class<U> destType) {
 		final List<U> dest = new ArrayList<>();
 		if (source == null) {
 			return null;

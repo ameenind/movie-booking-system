@@ -4,4 +4,6 @@ spring:
     url: jdbc:postgresql://localhost:5432/booking
     username: postgres
     password: password
-
+server:
+  error:
+    include-stacktrace: always

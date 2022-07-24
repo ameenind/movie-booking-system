@@ -3,15 +3,15 @@ package com.example.mbs.impl.data.entity;
 import com.example.mbs.impl.data.converter.JpaConverterJson;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "booking", schema = "public", catalog = "booking")
 public class BookingEntity {
     private String id;
-    private Map<String, Set<Integer>> seats;
+    private Map<String, List<Integer>> seats;
     private Long showId;
 
     @Id
@@ -27,11 +27,11 @@ public class BookingEntity {
     @Basic
     @Column(name = "seats")
     @Convert(converter = JpaConverterJson.class)
-    public Map<String, Set<Integer>> getSeats() {
+    public Map<String, List<Integer>> getSeats() {
         return seats;
     }
 
-    public void setSeats(Map<String, Set<Integer>> seats) {
+    public void setSeats(Map<String, List<Integer>> seats) {
         this.seats = seats;
     }
 
