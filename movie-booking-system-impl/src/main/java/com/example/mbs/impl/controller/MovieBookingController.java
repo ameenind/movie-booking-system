@@ -22,8 +22,6 @@ public class MovieBookingController implements MovieBookingService {
 
 
     private final BookingManager bookingManager;
-    final int SHORT_ID_LENGTH = 8;
-
 
     @Autowired
     public MovieBookingController(BookingManager bookingManager) {
@@ -40,16 +38,13 @@ public class MovieBookingController implements MovieBookingService {
     @Override
     public ResponseEntity<BookingDto> bookTicket(HttpServletRequest httpServletRequest, BookingDto bookingDto) {
 
-        if (bookingDto.getId() != null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
-        String shortId = RandomStringUtils.randomAlphanumeric(SHORT_ID_LENGTH);
-        bookingDto.setId(shortId);
-
         try {
+
+
             return ResponseEntityBuilder.okOrNotFound(this.bookingManager.bookTicket(bookingDto));
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 

@@ -1,6 +1,7 @@
 package com.example.mbs.impl.data.entity;
 
 import com.example.mbs.impl.data.converter.JpaConverterJson;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.List;
@@ -25,6 +26,7 @@ public class BookingEntity {
     }
 
     @Basic
+    //@Type(type = "jsonb")
     @Column(name = "seats")
     @Convert(converter = JpaConverterJson.class)
     public Map<String, List<Integer>> getSeats() {

@@ -10,7 +10,7 @@ import java.util.*;
 public class ShowEntity {
     private long id;
     private Date schedule;
-    private Map<String, Set<Integer>> availableSeats;
+    private Map<String, List<Integer>> availableSeats;
     private int movieId;
     private int audiId;
 
@@ -38,11 +38,11 @@ public class ShowEntity {
     @Basic
     @Column(name = "available_seats")
     @Convert(converter = JpaConverterJson.class)
-    public Map<String, Set<Integer>> getAvailableSeats() {
+    public Map<String, List<Integer>> getAvailableSeats() {
         return availableSeats;
     }
 
-    public void setAvailableSeats(Map<String, Set<Integer>> availableSeats) {
+    public void setAvailableSeats(Map<String, List<Integer>> availableSeats) {
         this.availableSeats = availableSeats;
     }
 
