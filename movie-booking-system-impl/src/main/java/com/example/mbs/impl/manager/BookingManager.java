@@ -53,7 +53,7 @@ public class BookingManager {
     }
 
     @Transactional
-    public BookingDto bookTicket(UserContactDetails user,  BookingDto bookingDto) throws Exception {
+    public BookingDto bookTicket(UserContactDetails user, BookingDto bookingDto) throws Exception {
 
         if (bookingDto.getId() != null) throw new Exception("Invalid request for booking");
 
@@ -85,11 +85,11 @@ public class BookingManager {
 
         Long cinemaId = audiRepo.findById(show.getAudiId()).get().getCinemaId();
 
-        if(!theatrePartner.LockSeats(cinemaId, bookingDto.getSeats())) {
+        if (!theatrePartner.LockSeats(cinemaId, bookingDto.getSeats())) {
             throw new Exception("Given seats does not available / exists");
         }
 
-        if(!theatrePartner.BookSeats(cinemaId, bookingDto.getSeats())) {
+        if (!theatrePartner.BookSeats(cinemaId, bookingDto.getSeats())) {
             throw new Exception("Given seats does not available / exists");
         }
 
