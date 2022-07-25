@@ -3,9 +3,9 @@ package com.example.mbs.impl.controller;
 import com.example.mbs.api.MovieBookingService;
 import com.example.mbs.api.dto.BookingDto;
 import com.example.mbs.api.dto.CityDto;
+import com.example.mbs.api.generic.UserContactDetails;
 import com.example.mbs.impl.manager.BookingManager;
 import com.example.mbs.impl.util.ResponseEntityBuilder;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,12 +40,23 @@ public class MovieBookingController implements MovieBookingService {
 
         try {
 
-
-            return ResponseEntityBuilder.okOrNotFound(this.bookingManager.bookTicket(bookingDto));
+            UserContactDetails userContactDetails = getContactDetailsFromRequest(httpServletRequest);
+            return ResponseEntityBuilder.okOrNotFound(this.bookingManager.bookTicket(userContactDetails, bookingDto));
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    private UserContactDetails getContactDetailsFromRequest(HttpServletRequest httpServletRequest) {
+
+        UserContactDetails userContactDetails = new UserContactDetails();
+        userContactDetails.setName(httpServletRequest.getHeader("UserName"));
+        userContactDetails.setMobile(httpServletRequest.getHeader("UserMobile"));
+        userContactDetails.setWhatsApp(httpServletRequest.getHeader("UserWhatsapp"));
+        userContactDetails.setEmail(httpServletRequest.getHeader("UserEmail"));
+
+        return userContactDetails;
     }
 
 }
