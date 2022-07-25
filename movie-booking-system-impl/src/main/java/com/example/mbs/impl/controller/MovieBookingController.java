@@ -3,7 +3,7 @@ package com.example.mbs.impl.controller;
 import com.example.mbs.api.MovieBookingService;
 import com.example.mbs.api.dto.BookingDto;
 import com.example.mbs.api.dto.CityDto;
-import com.example.mbs.api.generic.UserContactDetails;
+import com.example.mbs.api.generic.UserDetails;
 import com.example.mbs.impl.manager.BookingManager;
 import com.example.mbs.impl.util.ResponseEntityBuilder;
 import org.slf4j.Logger;
@@ -40,7 +40,7 @@ public class MovieBookingController implements MovieBookingService {
 
         try {
 
-            UserContactDetails userContactDetails = getContactDetailsFromRequest(httpServletRequest);
+            UserDetails userContactDetails = getContactDetailsFromRequest(httpServletRequest);
             return ResponseEntityBuilder.okOrNotFound(this.bookingManager.bookTicket(userContactDetails, bookingDto));
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -48,13 +48,14 @@ public class MovieBookingController implements MovieBookingService {
         }
     }
 
-    private UserContactDetails getContactDetailsFromRequest(HttpServletRequest httpServletRequest) {
+    private UserDetails getContactDetailsFromRequest(HttpServletRequest httpServletRequest) {
 
-        UserContactDetails userContactDetails = new UserContactDetails();
+        UserDetails userContactDetails = new UserDetails();
         userContactDetails.setName(httpServletRequest.getHeader("UserName"));
         userContactDetails.setMobile(httpServletRequest.getHeader("UserMobile"));
         userContactDetails.setWhatsApp(httpServletRequest.getHeader("UserWhatsapp"));
         userContactDetails.setEmail(httpServletRequest.getHeader("UserEmail"));
+        userContactDetails.setPaymentId(httpServletRequest.getHeader("userPaymentId"));
 
         return userContactDetails;
     }

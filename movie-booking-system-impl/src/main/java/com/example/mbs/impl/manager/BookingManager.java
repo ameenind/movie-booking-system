@@ -2,7 +2,7 @@ package com.example.mbs.impl.manager;
 
 import com.example.mbs.api.dto.BookingDto;
 import com.example.mbs.api.dto.CityDto;
-import com.example.mbs.api.generic.UserContactDetails;
+import com.example.mbs.api.generic.UserDetails;
 import com.example.mbs.impl.data.adaptor.DozerMappingWrapper;
 import com.example.mbs.impl.data.entity.BookingEntity;
 import com.example.mbs.impl.data.entity.CityEntity;
@@ -11,8 +11,9 @@ import com.example.mbs.impl.data.repo.AudiRepo;
 import com.example.mbs.impl.data.repo.BookingRepo;
 import com.example.mbs.impl.data.repo.CityRepo;
 import com.example.mbs.impl.data.repo.ShowRepo;
+import com.example.mbs.impl.service.Payment;
 import com.example.mbs.impl.service.TheatrePartner;
-import com.example.mbs.impl.service.UserNotificationService;
+import com.example.mbs.impl.service.UserNotification;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +28,8 @@ public class BookingManager {
 
     private final DozerMappingWrapper mapper;
     private final TheatrePartner theatrePartner;
-    private final UserNotificationService userNotificationService;
+    private final UserNotification userNotificationService;
+    private final Payment paymentService;
     private final CityRepo cityRepo;
     private final BookingRepo bookingRepo;
     private final ShowRepo showRepo;
@@ -35,10 +37,11 @@ public class BookingManager {
 
     final int SHORT_ID_LENGTH = 8;
 
-    public BookingManager(DozerMappingWrapper mapper, TheatrePartner theatrePartner, UserNotificationService userNotificationService, CityRepo cityRepo, BookingRepo bookingRepo, ShowRepo showRepo, AudiRepo audiRepo) {
+    public BookingManager(DozerMappingWrapper mapper, TheatrePartner theatrePartner, UserNotification userNotificationService, Payment paymentService, CityRepo cityRepo, BookingRepo bookingRepo, ShowRepo showRepo, AudiRepo audiRepo) {
         this.mapper = mapper;
         this.theatrePartner = theatrePartner;
         this.userNotificationService = userNotificationService;
+        this.paymentService = paymentService;
         this.cityRepo = cityRepo;
         this.bookingRepo = bookingRepo;
         this.showRepo = showRepo;
@@ -53,7 +56,7 @@ public class BookingManager {
     }
 
     @Transactional
-    public BookingDto bookTicket(UserContactDetails user, BookingDto bookingDto) throws Exception {
+    public BookingDto bookTicket(UserDetails user, BookingDto bookingDto) throws Exception {
 
         if (bookingDto.getId() != null) throw new Exception("Invalid request for booking");
 
@@ -89,19 +92,28 @@ public class BookingManager {
             throw new Exception("Given seats does not available / exists");
         }
 
-        if (!theatrePartner.BookSeats(cinemaId, bookingDto.getSeats())) {
-            throw new Exception("Given seats does not available / exists");
+        try {
+
+            if (!paymentService.validatePayment(user, bookingDto.getSeats())){
+                throw new Exception("Payment error");
+            }
+
+            if (!theatrePartner.BookSeats(cinemaId, bookingDto.getSeats())) {
+                throw new Exception("Given seats does not available / exists");
+            }
+
+            // Finally, creation of the booking in the system
+            String shortId = RandomStringUtils.randomAlphanumeric(SHORT_ID_LENGTH);
+            bookingDto.setId(shortId);
+            BookingEntity booking = mapper.map(bookingDto, BookingEntity.class);
+            booking = bookingRepo.save(booking);
+            bookingDto = mapper.map(booking, BookingDto.class);
+
+            userNotificationService.PrepareNotification(user, bookingDto);
+
+            return bookingDto;
+        }finally {
+            theatrePartner.UnLockSeats(cinemaId, bookingDto.getSeats());
         }
-
-        // Finally, creation of the booking in the system
-        String shortId = RandomStringUtils.randomAlphanumeric(SHORT_ID_LENGTH);
-        bookingDto.setId(shortId);
-        BookingEntity booking = mapper.map(bookingDto, BookingEntity.class);
-        booking = bookingRepo.save(booking);
-        bookingDto = mapper.map(booking, BookingDto.class);
-
-        userNotificationService.PrepareNotification(user, bookingDto);
-
-        return bookingDto;
     }
 }

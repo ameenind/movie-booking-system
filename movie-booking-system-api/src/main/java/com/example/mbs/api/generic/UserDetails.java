@@ -1,11 +1,13 @@
 package com.example.mbs.api.generic;
 
-public class UserContactDetails {
+public class UserDetails {
 
     String name;
     String mobile;
     String whatsApp;
     String email;
+
+    String paymentId;
 
     public String getName() {
         return name;
@@ -23,6 +25,10 @@ public class UserContactDetails {
         return email;
     }
 
+    public String getPaymentId() {
+        return paymentId;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -37,5 +43,9 @@ public class UserContactDetails {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setPaymentId(String paymentId) {
+        this.paymentId = paymentId;
     }
 }
